@@ -335,7 +335,8 @@ create() {
         [[ $is_change || ! $json_str ]] && get protocol $2
         is_listen='listen:"0.0.0.0"'
         [[ $host ]] && is_listen=${is_listen/0.0.0.0/127.0.0.1}
-        is_sniffing='sniffing:{enabled:true,destOverride:["http","tls"],routeOnly:true}'
+        is_sniffing='sniffing:{enabled:true,destOverride:["http","tls"]}'
+        [[ $is_reality ]] && is_sniffing='sniffing:{enabled:true,destOverride:["http","tls"],routeOnly:true}'
         is_new_json=$(jq '{inbounds:[{tag:"'$is_config_name'",port:'"$port"','"$is_listen"',protocol:"'$is_protocol'",'"$json_str"','"$is_sniffing"'}]}' <<<{})
         if [[ $is_dynamic_port ]]; then
             [[ ! $is_dynamic_port_range ]] && get dynamic-port
